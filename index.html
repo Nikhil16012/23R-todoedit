@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Edit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .todo-item input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <div>
+        <input type="text" id="newTaskInput" placeholder="Add a new task" />
+        <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="todoList"></ul>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('newTaskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const listItem = document.createElement('li');
+            listItem.className = 'todo-item';
+
+            const taskInputField = document.createElement('input');
+            taskInputField.type = 'text';
+            taskInputField.value = taskText;
+            taskInputField.readOnly = true;
+
+            const buttons = document.createElement('div');
+            buttons.className = 'buttons';
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.onclick = function () {
+                if (taskInputField.readOnly) {
+                    taskInputField.readOnly = false;
+                    editButton.textContent = 'Save';
+                } else {
+                    taskInputField.readOnly = true;
+                    editButton.textContent = 'Edit';
+                }
+            };
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function () {
+                let cnfrm=window.confirm("are you sure");
+            if(cnfrm){
+                listItem.remove();}
+        
+            };
+
+            buttons.appendChild(editButton);
+            buttons.appendChild(deleteButton);
+
+            listItem.appendChild(taskInputField);
+            listItem.appendChild(buttons);
+
+            document.getElementById('todoList').appendChild(listItem);
+            taskInput.value = '';
+        }
+    </script>
+</body>
+</html>
